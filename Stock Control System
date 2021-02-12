@@ -1,0 +1,37 @@
+import sqlite3
+
+# Connect to databse
+conn = sqlite3.connect("Inventory.db")
+
+# Create a cursor
+c = conn.cursor()
+
+# Create a table, [Dataypes: INTEGER (ALL NUMBERS), REAL (W/ DECIMALS), TEXT]
+c.execute("""CREATE TABLE IF NOT EXISTS Stock (
+        Item_Name TEXT,
+        Item_Quantity INTEGER,
+        Price REAL,
+        Weight REAL,
+        Replacement_Time INTEGER
+        )""")
+
+#Insert many records into the table
+many_Items = [('iPhone 12', '20', '£999', '0.250kg', '14 Days'),
+              ('iPhone 12 Pro', '7', '£1050', '0.300kg', '17 Days'),
+              ('Samsung S21', '17', '£850', '0.250kg', '12 Days'),
+              ('Samsng S21+', '21', '£999', '0.333kg', '16 Days'),
+              ('Huawei P40 lite', '37', '£170', '0.220kg', '7 Days'),
+              ('Huawei P40 pro', '33', '£399', '0.270kg', '10 Days')]
+
+c.executemany("INSERT INTO Stock VALUES (?,?,?,?,?)",many_Items)
+
+# Query the Database
+c.execute("SELECT * FROM Stock")
+
+print(c.fetchall())
+
+# Commit our command
+conn.commit()
+
+# Close our connection
+conn.close()
