@@ -1,0 +1,96 @@
+import sqlite3
+conn = sqlite3.connect('Inventory.db')
+
+c = conn.cursor()
+
+
+#c.execute("CREATE TABLE IF NOT EXISTS Items (Item_Name TEXT, Number_In_Stock INTEGER, Row TEXT, Shelf INTEGER, Price REAL, Weight REAL, Next_Shipment_Due TEXT)")
+
+
+#Manyitems = [('Phone','150','12A','4','£400','0.5kg','4 Days'),
+              #('Tablet','0','50B','3','£450','1kg','12 Weeks'),
+              #('Board Game','30','4B','3','£20','3.2kg','Never'),
+              #('Lamp','40','75B','4','£30','5kg','1 Day'),
+              #('Laptop','0','13A','3','£600','4.2kg','1 Week')]
+
+#c.executemany("INSERT INTO Items VALUES(?,?,?,?,?,?,?)", Manyitems)
+
+c.execute("SELECT * FROM Items")
+
+
+#for items in items:
+    #print(items[0])
+
+#print(c.fetchall())
+
+
+#How to View the inventory
+def Items():
+    items = c.fetchall()
+    for items in items:
+        print(items[0], '\t\t\t\t', items[4])
+    return
+#Manager View of inventory#def ManView():
+def ManView():   
+    items = c.fetchall()
+    for items in items:
+        print(items[0],'\t', items[1], '\t', items[2], '\t' ,items[3], '\t', items[4], '\t',items[5], '\t' ,items[6])
+    return
+        
+#How to Buy an Item
+def Buy():
+    input("Product Name:  ")
+
+#def Add():
+#    s = str(input("Input Name: "), 
+#    d = int(input("Input Stock: "),
+#    f = str(input("Input Row: "),
+#    g = int(input("Input Shelf: "),
+#    h = str(input("Input Price: "),#    j = str(input("Input Weight: "),
+#    k = str(input("Input Next Shipment: "),
+#    l = c.execute("INSERT INTO items VALUES ('s','d','f','g','h','j','k,')")
+
+#how to exit the system    
+def Non():
+    print("You have chosen to exit the system")
+    
+    
+#CREATING AN INTERFACE
+
+print("________________________\n________________________ \n\n1. View Items \n\n2. Buy an Item \n\n3. Add to Inventory \n\n4. Manager View \n\n5. Exit \n\n________________________\n________________________\n")
+choice = int(input("What do you want to do:  "))
+
+if choice >=6 or choice <=0 :
+    print("ERROR PICK A NUMBER STATED")
+
+
+if choice == 1 :
+    a = Items()
+    
+if choice == 2 :
+    z = (input("Product Name: "))
+    c.execute("SELECT * FROM items WHERE Item_Name = 'z'")
+    n = print(c.fetchall())
+    c.execute("UPDATE Items SET Number_in_Stock = 'n' WHERE Item_Name LIKE 'z' ")
+    
+    
+if choice == 3 :
+    m = input("Input The New Item Details: ")
+    v = m.split()
+    c.executemany("INSERT INTO items VALUES(?,?,?,?,?,?,?)", v)
+    
+    
+if choice == 4 :
+    Password = input("PASSWORD:  ")
+    if Password == 'Stock':
+        d = ManView()
+    else:
+        print("INCORRECT PASSWORD")
+    
+if choice == 5:
+    b = Non()
+
+    
+conn.commit()
+c.close()
+conn.close()
